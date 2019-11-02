@@ -61,11 +61,14 @@ def main():
             f.write('%d %d %s %s' % (uid, gid, user, group))
 
         # Create user and group
-        subprocess.check_call(['groupadd',
-                               '--non-unique',
-                               '--gid', '%d' % gid,
-                               group
-                               ], stdout=subprocess.DEVNULL)
+        try:
+            subprocess.check_call(['groupadd',
+                                   '--non-unique',
+                                   '--gid', '%d' % gid,
+                                   group
+                                   ], stdout=subprocess.DEVNULL)
+        except subprocess.CalledProcessError:
+            pass
 
         subprocess.check_call(['useradd',
                                '--non-unique',
